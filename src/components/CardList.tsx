@@ -35,7 +35,7 @@ export function CardList({ cards }: CardsProps): JSX.Element {
       <SimpleGrid columns={3} spacing={10}>
         {cards.map(card => (
           <Card
-            key={card.id}
+            key={card.ts}
             data={card}
             viewImage={() => openImage(card.url)}
           />

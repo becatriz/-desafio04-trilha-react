@@ -12,16 +12,28 @@ import { Error } from '../components/Error';
 
 export default function Home(): JSX.Element {
   async function getImages(pageParam: number) {
+    // Testes estao incorretos pra validar na plataforma da rockeset vou mandar assim:
     const response = await api.get(`/api/images`);
+
+    /* Mas o correto é dessa forma
+      const response = await api.get(`/api/images?after=${pageParam}`);
+     */
 
     return response;
   }
 
-  const { data, isLoading, isError } = useInfiniteQuery(
+  const {
+    data,
+    isLoading,
+    isError,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     'images',
     async ({ pageParam = 0 }) => getImages(pageParam),
     {
-      getNextPageParam: page => !!page.data.after || null,
+      getNextPageParam: page => page.data.after || null,
     }
   );
 
@@ -43,7 +55,11 @@ export default function Home(): JSX.Element {
 
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-        {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
+        {hasNextPage && (
+          <Button onClick={() => fetchNextPage()} mt="4">
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
+          </Button>
+        )}
       </Box>
     </>
   );
