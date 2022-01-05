@@ -20,15 +20,10 @@ export function CardList({ cards }: CardsProps): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [imageUrl, setImageUrl] = useState('');
 
-  // TODO MODAL USEDISCLOSURE
   function openImage(url: string) {
     setImageUrl(url);
     onOpen();
   }
-
-  // TODO SELECTED IMAGE URL STATE
-
-  // TODO FUNCTION HANDLE VIEW IMAGE
 
   return (
     <>
